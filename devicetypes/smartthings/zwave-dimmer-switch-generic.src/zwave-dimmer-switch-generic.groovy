@@ -12,7 +12,7 @@
  *
  */
 metadata {
-	definition (name: "Z-Wave Dimmer Switch Generic", namespace: "smartthings", author: "SmartThings") {
+	definition (name: "CUSTOM Z-Wave Dimmer Switch Generic", namespace: "jmb12686", author: "JohnBelisle") {
 		capability "Switch Level"
 		capability "Actuator"
 		capability "Health Check"
@@ -102,10 +102,12 @@ def parse(String description) {
 }
 
 def zwaveEvent(physicalgraph.zwave.commands.basicv1.BasicReport cmd) {
+	log.info "BasicReport:   ${cmd}"
 	dimmerEvents(cmd, 'physical')
 }
 
 def zwaveEvent(physicalgraph.zwave.commands.basicv1.BasicSet cmd) {
+	log.info "BasicSet:   ${cmd}"
 	dimmerEvents(cmd, 'physical')
 }
 
