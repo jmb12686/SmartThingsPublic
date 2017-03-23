@@ -102,11 +102,11 @@ def parse(String description) {
 }
 
 def zwaveEvent(physicalgraph.zwave.commands.basicv1.BasicReport cmd) {
-	dimmerEvents(cmd)
+	dimmerEvents(cmd, 'physical')
 }
 
 def zwaveEvent(physicalgraph.zwave.commands.basicv1.BasicSet cmd) {
-	dimmerEvents(cmd)
+	dimmerEvents(cmd, 'physical')
 }
 
 def zwaveEvent(physicalgraph.zwave.commands.switchmultilevelv1.SwitchMultilevelReport cmd) {
@@ -117,11 +117,11 @@ def zwaveEvent(physicalgraph.zwave.commands.switchmultilevelv1.SwitchMultilevelS
 	dimmerEvents(cmd)
 }
 
-private dimmerEvents(physicalgraph.zwave.Command cmd) {
+private dimmerEvents(physicalgraph.zwave.Command cmd, type = 'digital') {
 	def value = (cmd.value ? "on" : "off")
-	def result = [createEvent(name: "switch", value: value)]
+	def result = [createEvent(name: "switch", value: value, type: type)]
 	if (cmd.value && cmd.value <= 100) {
-		result << createEvent(name: "level", value: cmd.value, unit: "%")
+		result << createEvent(name: "level", value: cmd.value, unit: "%", type: type)
 	}
 	return result
 }
